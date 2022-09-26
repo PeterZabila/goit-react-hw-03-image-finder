@@ -1,0 +1,36 @@
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1200;
+  }
+  
+  .Modal {
+    max-width: calc(100vw - 100px);
+    max-height: calc(100vh - 100px);
+  }
+
+  .close {
+    /* color: red; */
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.content img {
+  max-width: calc(100vw - 100px);
+  max-height: calc(100vh - 100px);
+}
