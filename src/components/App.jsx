@@ -6,6 +6,8 @@ import Button from './Button/Button';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default class App extends Component {
@@ -46,7 +48,9 @@ export default class App extends Component {
   });
  
     } catch (error) {
-      this.setState({error})
+      toast.error('No matches found for your search request');
+      this.setState({error});
+      
     } finally {
       this.setState({
         loading: false,
@@ -91,6 +95,7 @@ export default class App extends Component {
     const { results, loading, error, showModal } = this.state;
     const isResults = Boolean(results.length);
     const { onSubmit, loadMore, openModal, closeModal } = this;
+    // const notify = () => toast("Wow so easy!");
 
     return (
       <>
@@ -98,7 +103,7 @@ export default class App extends Component {
           <SearchBar onSubmit={onSubmit}/>
         </div>
          {loading && <Loader/>}
-         {isResults && <ImageGallery items={results} onClick={openModal} onMore={loadMore}/> }
+         {isResults ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore}/>) : (<p>No matches for your search request</p>) }
          {showModal && <Modal onClose={closeModal}><img src={this.state.modalContent.largeImageURL.largeImageURL} max-width="600px" alt="" /></Modal>}
          {error && <p>Please try later...</p>}
          <div className='Container'>
