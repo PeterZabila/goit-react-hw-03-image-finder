@@ -1,19 +1,17 @@
 import './ImageGallery.css';
 import ImageGalleryItem from './ImageGalleryItem';
-// import Button from '../Button/Button';
 
 
-export default function ImageGallery ({items, onClick}) {
-    const images = items.map(({id, webformatURL, largeImageURL}) => {
+
+export default function ImageGallery ({items, onClick, page}) {
+    const images = items.map(({ id, webformatURL, largeImageURL}) => {
         return <ImageGalleryItem key={id} webformatURL={webformatURL} onClick={onClick} largeImageURL={largeImageURL}/>
     })
 
-    return (
-        <div>
-             <ul className="ImageGallery">
+    return ( 
+             <ul className="ImageGallery" key={page}>
                 {images}
             </ul>
-        </div>    
     )
 }
 
