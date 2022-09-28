@@ -22,12 +22,12 @@ export default class App extends Component {
     }
   }
 
-  componentDidMount () {
-      axios.get('https://pixabay.com/api/?page=1&key=28076639-0feb76057bbd5c0e620bbf417&image_type=photo&orientation=horizontal&per_page=12')
-      .then(resp => {
-          this.setState({results: [...resp.data.hits]});
-      });
-  }
+  // componentDidMount () {
+  //     axios.get('https://pixabay.com/api/?page=1&key=28076639-0feb76057bbd5c0e620bbf417&image_type=photo&orientation=horizontal&per_page=12')
+  //     .then(resp => {
+  //         this.setState({results: [...resp.data.hits]});
+  //     });
+  // }
 
   componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
@@ -48,6 +48,7 @@ export default class App extends Component {
    
       } catch (error) {
         this.setState({error});
+        alert("No results fund matching your search request");
         
       } finally {
         this.setState({
@@ -102,7 +103,7 @@ export default class App extends Component {
 
 
   render() {
-    const { results, loading, error, showModal, page } = this.state;
+    const { results, loading, error, showModal, page, query } = this.state;
     const isResults = Boolean(results.length);
     const { onSubmit, loadMore, openModal, closeModal } = this;
 
@@ -111,11 +112,13 @@ export default class App extends Component {
         <div className="App">
           <SearchBar onSubmit={onSubmit}/>
         </div>
+        <div className='Container'>
+     
          {loading && <Loader/>}
-         {isResults ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p>No matches for your search request</p>) }
+         {(isResults && query) ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p className='Message'>Please enter valid search key words</p>) }
          {showModal && <Modal onClose={closeModal}><img src={this.state.modalContent.largeImageURL.largeImageURL} max-width="600px" alt="" /></Modal>}
          {error && <p>Please try later...</p>}
-         <div className='Container'>
+        
          {isResults && <Button onClick={loadMore}/>}
          </div>
      

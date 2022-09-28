@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import './SearchBar.css';
-import pic from '../../images/search.png'
-// import {ReactComponent as SearchIcon} from '../../images/search.svg'
+import pic from '../../images/search.png';
+import PropTypes from 'prop-types';
 
 export default class SearchBar extends Component {
     state = {
@@ -31,9 +31,7 @@ export default class SearchBar extends Component {
             <header className="Searchbar">
                 <form className="SearchForm" onSubmit={this.handleSubmit} >
                     <button type="submit" className="SearchForm-button">
-                        {/* <span className="SearchForm-button-label">Search</span> */}
                         <img alt="" src={pic} width="25px" />
-                        {/* <SearchIcon/><img src={"../../images/search.png"} width="50px" /> */}
                     </button>
 
                     <input
@@ -50,4 +48,8 @@ export default class SearchBar extends Component {
             </header>
         )
     }
+}
+
+SearchBar.propTypes = {
+    onSubmit: PropTypes.func,
 }
