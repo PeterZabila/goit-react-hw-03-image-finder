@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import './App.css';
 import SearchBar from "./SearchBar/SearchBar";
 import Button from './Button/Button';
@@ -7,6 +7,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
 import { Notify } from 'notiflix';
+import fetchResult from './Api/Api';
 
 
 const URL = `https://pixabay.com/api/`;
@@ -19,6 +20,7 @@ export default class App extends Component {
     error: null,
     page: 1,
     showModal: false,
+    hits: null,
     modalContent: {
       largeImageURL: '',
     }
@@ -31,33 +33,40 @@ export default class App extends Component {
   //     });
   // }
 
-  componentDidUpdate(_, prevState) {
-    const { query, page } = this.state;
-    if((query && prevState.query !== query) || page > prevState.page) {
-      this.fetchPosts()
-    }
-  }
+  componentDidUpdate(prevProps, prevState) {
+    const prevQuery = prevState.query;
+    const nextQuery = this.state.query;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
 
-  fetchPosts() {
-    const {query, page} = this.state;
-    this.setState({ loading: true, });
-  
-    try {
-     axios.get(`https://pixabay.com/api/?q=${query}&page=${page}&key=28076639-0feb76057bbd5c0e620bbf417&image_type=photo&orientation=horizontal&per_page=12`)
-      .then(resp => {
-        this.setState({results: [...resp.data.hits]});
-    });
-   
-      } catch (error) {
-        this.setState({error});
-        
-        alert("No results fund matching your search request");
-        
-      } finally {
-        this.setState({
-          loading: false,
+    if (prevQuery !== nextQuery || prevPage !== nextPage) {
+      this.setState({ lading: true });
+
+      const response = fetchResult(URL, nextQuery, this.state.page)
+        .then(response => {
+          if (this.state.results) {
+            this.setState({
+              results: [...response.hits],
+              loading: false,
+            });
+            return;
+          }
+          this.setState({
+            results: [...response.hits],
+            loading: false,
+            hits: response.totalHits,
+          });
         })
-      }
+        .catch(error => this.setState({ error, loading: false }));
+
+      setTimeout(() => {
+        window.scrollBy({
+          top: 9999,
+          behavior: 'smooth',
+        });
+      }, '500');
+      return response;
+    }
   }
 
   onSubmit = (query, event) => {
