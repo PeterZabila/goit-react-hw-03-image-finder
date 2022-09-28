@@ -8,7 +8,6 @@ import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export default class App extends Component {
   state = {
     results: [],
@@ -48,6 +47,7 @@ export default class App extends Component {
    
       } catch (error) {
         this.setState({error});
+        
         alert("No results fund matching your search request");
         
       } finally {
@@ -113,13 +113,13 @@ export default class App extends Component {
           <SearchBar onSubmit={onSubmit}/>
         </div>
         <div className='Container'>
-     
-         {loading && <Loader/>}
-         {(isResults && query) ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p className='Message'>Please enter valid search key words</p>) }
-         {showModal && <Modal onClose={closeModal}><img src={this.state.modalContent.largeImageURL.largeImageURL} max-width="600px" alt="" /></Modal>}
-         {error && <p>Please try later...</p>}
-        
-         {isResults && <Button onClick={loadMore}/>}
+            {loading && <Loader/>}
+            {(isResults && query) ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p className='Message'>Please enter search key words</p>) }
+            {showModal && <Modal onClose={closeModal}><img src={this.state.modalContent.largeImageURL.largeImageURL} max-width="600px" alt="" /></Modal>}
+            {error && <p>Please try later...</p>}
+         </div>
+         <div className='Container'>
+          {isResults && <Button onClick={loadMore}/>}
          </div>
      
       </>
