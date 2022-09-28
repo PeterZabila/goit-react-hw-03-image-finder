@@ -103,7 +103,7 @@ export default class App extends Component {
 
 
   render() {
-    const { results, loading, error, showModal, page, query } = this.state;
+    const { results, loading, error, showModal, page } = this.state;
     const isResults = Boolean(results.length);
     const { onSubmit, loadMore, openModal, closeModal } = this;
 
@@ -114,7 +114,7 @@ export default class App extends Component {
         </div>
         <div className='Container'>
             {loading && <Loader/>}
-            {(isResults && query) ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p className='Message'>Please enter search key words</p>) }
+            {isResults ? (<ImageGallery items={results} onClick={openModal} onMore={loadMore} key={page}/>) : (<p className='Message'>Please enter search key words</p>) }
             {showModal && <Modal onClose={closeModal}><img src={this.state.modalContent.largeImageURL.largeImageURL} max-width="600px" alt="" /></Modal>}
             {error && <p>Please try later...</p>}
          </div>
