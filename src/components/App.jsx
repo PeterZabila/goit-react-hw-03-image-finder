@@ -25,13 +25,6 @@ export default class App extends Component {
     }
   }
 
-  // componentDidMount () {
-  //     axios.get('https://pixabay.com/api/?page=1&key=28076639-0feb76057bbd5c0e620bbf417&image_type=photo&orientation=horizontal&per_page=12')
-  //     .then(resp => {
-  //         this.setState({results: [...resp.data.hits]});
-  //     });
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     const prevQuery = prevState.query;
     const nextQuery = this.state.query;
@@ -44,9 +37,11 @@ export default class App extends Component {
       const response = fetchResult(URL, nextQuery, this.state.page)
         .then(response => {
           if (this.state.results) {
-            this.setState({
-              results: [...response.hits],
-              loading: false,
+            this.setState((prevState) => {
+              return {
+                loading: false,
+                results: [...prevState.results, ...response.hits],
+              }
             });
             return;
           }
@@ -57,13 +52,16 @@ export default class App extends Component {
   }
 
   onSubmit = (query) => {
-    this.setState({query,
-      page: 1,
-    })
     if (query.trim() === '') {
       Notify.failure('Type search query');
       return;
     }
+    
+   if(query !== this.state.query) {
+    this.setState({query,
+      page: 1,
+    })
+   }
   }
 
   openModal = (largeImageURL) => {
@@ -91,17 +89,6 @@ export default class App extends Component {
         }
     })
   }
-
-  // loadMore = () => {
-  //   this.setState((prevState, {page}) => {
-  //     console.log(prevState.results);
-  //     console.log(this.state.results);
-  //       return {
-  //           page: page + 1,
-  //             results: [...prevState.results, ...this.state.results],
-  //       }
-  //     });
-  // }
 
   render() {
     const { results, loading, error, showModal, page } = this.state;

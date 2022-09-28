@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import { Component } from 'react';
 import './Modal.css';
 import closePic from '../../images/closeIcon.png'
+import PropTypes from 'prop-types';
 const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
@@ -32,4 +33,9 @@ export default class Modal extends Component {
             modalRoot,
         );
     }
+}
+
+
+Modal.propTypes = {
+    onClose: PropTypes.func,
 }

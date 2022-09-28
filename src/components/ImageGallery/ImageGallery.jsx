@@ -15,7 +15,12 @@ export default function ImageGallery ({items, onClick, page}) {
 }
 
 ImageGallery.propTypes = {
-    items: PropTypes.array,
+    items: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        webformatURL: PropTypes.string,
+        largeImageURL: PropTypes.string,
+    })),
+
     onClick: PropTypes.func,
     page: PropTypes.number,
 }
