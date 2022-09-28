@@ -20,7 +20,6 @@ export default class App extends Component {
     error: null,
     page: 1,
     showModal: false,
-    hits: null,
     modalContent: {
       largeImageURL: '',
     }
@@ -51,31 +50,18 @@ export default class App extends Component {
             });
             return;
           }
-          this.setState({
-            results: [...response.hits],
-            loading: false,
-            hits: response.totalHits,
-          });
         })
         .catch(error => this.setState({ error, loading: false }));
-
-      setTimeout(() => {
-        window.scrollBy({
-          top: 9999,
-          behavior: 'smooth',
-        });
-      }, '500');
       return response;
     }
   }
 
-  onSubmit = (query, event) => {
+  onSubmit = (query) => {
     this.setState({query,
       page: 1,
     })
     if (query.trim() === '') {
       Notify.failure('Type search query');
-      event.target.reset();
       return;
     }
   }
