@@ -60,6 +60,7 @@ export default class App extends Component {
    if(query !== this.state.query) {
     this.setState({query,
       page: 1,
+      results: [],
     })
    }
   }
