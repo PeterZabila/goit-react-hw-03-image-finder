@@ -6,7 +6,10 @@ import Button from './Button/Button';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import Modal from './Modal/Modal';
-import 'react-toastify/dist/ReactToastify.css';
+import { Notify } from 'notiflix';
+
+
+const URL = `https://pixabay.com/api/`;
 
 export default class App extends Component {
   state = {
@@ -57,10 +60,15 @@ export default class App extends Component {
       }
   }
 
-  onSubmit = (query) => {
+  onSubmit = (query, event) => {
     this.setState({query,
       page: 1,
     })
+    if (query.trim() === '') {
+      Notify.failure('Type search query');
+      event.target.reset();
+      return;
+    }
   }
 
   openModal = (largeImageURL) => {
@@ -89,7 +97,6 @@ export default class App extends Component {
     })
   }
 
-
   // loadMore = () => {
   //   this.setState((prevState, {page}) => {
   //     console.log(prevState.results);
@@ -100,7 +107,6 @@ export default class App extends Component {
   //       }
   //     });
   // }
-
 
   render() {
     const { results, loading, error, showModal, page } = this.state;
